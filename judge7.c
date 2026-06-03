@@ -160,6 +160,29 @@ void buscar_e_imprimir(NoArvore *raiz, int chave) {
     }
 }
 
+// Funcao recursiva para liberar toda a memoria alocada pela arvore
+void liberar_arvore(NoArvore *no) {
+    // Caso base: se o no for nulo, nao ha o que liberar
+    if (no == NULL) {
+        return;
+    }
+
+    // Se nao for folha, precisa descer e liberar todos os filhos primeiro
+    if (!no->folha) {
+        for (int i = 0; i <= no->num_chaves; i++) {
+            liberar_arvore(no->filhos[i]);
+        }
+    }
+
+    // Libera os arrays dinamicos alocados dentro do no na funcao 'criar_no'
+    free(no->chaves);
+    free(no->filhos);
+    
+    // Por fim, libera a memoria do proprio no
+    free(no);
+}
+
+
 // funcao principal
 int main() {
     int m;
@@ -197,6 +220,8 @@ int main() {
         // chama a funcao que lida com o restante da saida
         buscar_e_imprimir(raiz, chave_busca);
     }
+
+    liberar_arvore(raiz);
 
     return 0;
 }
