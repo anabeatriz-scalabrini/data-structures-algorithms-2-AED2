@@ -38,6 +38,12 @@ Promocao inserir_recursivo(NoArvore *no, int chave, int m) {
     prom.ocorreu = false;
 
     if (no->folha) {
+
+        for (int k = 0; k < no->num_chaves; k++) {
+            if (no->chaves[k] == chave) return prom; // Ignora duplicatas
+        }
+
+
         // insere na folha mantendo a ordenacao
         int i = no->num_chaves - 1;
         while (i >= 0 && no->chaves[i] > chave) {
@@ -181,7 +187,6 @@ void liberar_arvore(NoArvore *no) {
     // Por fim, libera a memoria do proprio no
     free(no);
 }
-
 
 // funcao principal
 int main() {
